@@ -1,4 +1,5 @@
 "use client";
+
 import SideArt from "../components/UI/SideArt";
 import ResetPassword from "./ResetPassword";
 

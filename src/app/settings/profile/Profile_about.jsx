@@ -1,5 +1,4 @@
-import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import "./Profile.css";
 
 export default function ProfileAbout({ about, setAbout, handleSubmit }) {
@@ -29,7 +28,7 @@ export default function ProfileAbout({ about, setAbout, handleSubmit }) {
             value={about}
             maxLength={maxChars}
             placeholder="About (optional)"
-          ></textarea>
+          />
           <p className="textboxlettercount">
             {maxChars - about.length} Characters remaining
           </p>

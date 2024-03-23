@@ -1,8 +1,10 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import "./Profile_name";
+import React from "react";
 
-export default function ProfileName({ displayName, setDisplayName, handleSubmit }) {
+export default function ProfileName({
+  displayName,
+  setDisplayName,
+  handleSubmit,
+}) {
   const maxChars = 30;
 
   function handleInputChange(event) {
@@ -30,7 +32,7 @@ export default function ProfileName({ displayName, setDisplayName, handleSubmit 
                 onChange={handleInputChange}
                 value={displayName}
                 maxLength={maxChars}
-              ></input>
+              />
               <p className="textboxlettercount">
                 {maxChars - displayName.length} Characters remaining
               </p>

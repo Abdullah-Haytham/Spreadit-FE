@@ -29,18 +29,17 @@ function GrayOutMenu({ onClose, onSelectGray, addSocial }) {
     setChoicesOpen((prevState) => !prevState);
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSave();
+  const handleSave = () => {
+    if (displayName.trim() !== "" && socialUrl.trim() !== "") {
+      const tempFinder = social.find((finder) => finder.id === selectedLinkId);
+      addSocial(selectedLinkId, displayName, socialUrl, tempFinder.logo);
+      onClose();
     }
   };
 
-  const handleSave = () => {
-    if (displayName.trim() !== "" && socialUrl.trim() !== "") {
-      // Check if displayName is not empty
-      const tempFinder = social.find((finder) => finder.id === selectedLinkId);
-      addSocial(selectedLinkId, displayName, socialUrl, tempFinder.logo); // Pass an object with displayName to addSocial function
-      onClose();
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSave();
     }
   };
 
@@ -125,7 +124,7 @@ function GrayOutMenu({ onClose, onSelectGray, addSocial }) {
             <div className={styles.flexHeader}>
               {isDialogOpen && (
                 <div className={styles.backArrow} style={{ flexBasis: "16px" }}>
-                  <button onClick={handleToggleStates}>
+                  <button type="button" onClick={handleToggleStates}>
                     <div className="color-X icon">&larr;</div>
                   </button>
                 </div>
@@ -135,7 +134,7 @@ function GrayOutMenu({ onClose, onSelectGray, addSocial }) {
               </div>
               {isChoicesOpen && (
                 <div className={styles.flexX} style={{ flexBasis: "16px" }}>
-                  <button onClick={onClose}>
+                  <button type="button" onClick={onClose}>
                     <div className="color-X icon">&#10006;</div>
                   </button>
                 </div>
@@ -143,7 +142,7 @@ function GrayOutMenu({ onClose, onSelectGray, addSocial }) {
               {isDialogOpen && (
                 <div className={styles.flexX} style={{ flexBasis: "16px" }}>
                   <OutlineButton
-                    children={"Save"}
+                    children="Save"
                     isDisabled={displayName === "" || socialUrl === ""}
                     btnClick={handleSave}
                   />

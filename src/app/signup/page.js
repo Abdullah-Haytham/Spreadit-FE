@@ -1,14 +1,15 @@
-'use client'
+"use client";
+
 import SideArt from "../components/UI/SideArt";
 import Signup from "./Signup";
 
 function SpreaditSignup() {
-    return (
-      <div className="PageColumns">
-        <SideArt />
-        <Signup />
-      </div>
-    );
-  }
+  return (
+    <div className="PageColumns">
+      <SideArt />
+      <Signup />
+    </div>
+  );
+}
 
-  export default SpreaditSignup;
+export default SpreaditSignup;

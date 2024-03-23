@@ -1,21 +1,17 @@
 import React from "react";
 import styles from "./OutlineButton.module.css";
 
-function OutlineButton(props) {
-  const handleClick = () => {
-    console.log(props.children , "clicked!");
-  };
-
+function OutlineButton({ children, isDisabled, btnClick }) {
   return (
     <div>
       <button
-        role="button"
+        type="button"
         tabIndex="0"
-        className={`${styles. buttonBorder} ${styles.buttonText} ${styles.buttonColor}`}
-        onClick={props.btnClick}
-        disabled={props.isDisabled}
+        className={`${styles.buttonBorder} ${styles.buttonText} ${styles.buttonColor}`}
+        onClick={btnClick}
+        disabled={isDisabled}
       >
-        {props.children}
+        {children}
       </button>
     </div>
   );

@@ -1,13 +1,16 @@
 import React from "react";
-import Link from "next/link.js";
+import Link from "next/link";
 
-function BottomHelp(props) {
+function BottomHelp({ children }) {
   return (
     <>
-      {props.children || (
+      {children || (
         <div className="bottom-text">
           Don't have an email or need assistance logging in?
-          <Link href="https://www.reddit.com/wiki/index/" className="bottom-link">
+          <Link
+            href="https://www.reddit.com/wiki/index/"
+            className="bottom-link"
+          >
             {" "}
             get help
           </Link>

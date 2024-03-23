@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import FormInfo from "../components/form/FormInfo.jsx";
-import BlueButton from "../components/UI/BlueButton.jsx";
-import BottomHelp from "../components/UI/BottomHelp.jsx";
-import submitToApi from "../utils/submitToApi.js";
+import FormInfo from "../components/form/FormInfo";
+import BlueButton from "../components/UI/BlueButton";
+import BottomHelp from "../components/UI/BottomHelp";
+import submitToApi from "../utils/submitToApi";
 
 function ChangePassword() {
   const url = "http://localhost:3002/reset-password";
@@ -28,11 +28,10 @@ function ChangePassword() {
       setIsLong(false);
       return;
     }
-    const password = formData.password;
-    submitToApi(url, "POST", {password});
+    const { password } = formData;
+    submitToApi(url, "POST", { password });
     setFormData({ password: "", password2: "" });
-  }
-
+  };
 
   return (
     <div className="pageColumn__right">

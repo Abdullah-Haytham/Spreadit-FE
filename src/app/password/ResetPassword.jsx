@@ -1,17 +1,21 @@
-"use client"
+"use client";
+
 import React, { useState } from "react";
-import FormInfo from "../components/form/FormInfo.jsx";
-import BlueButton from "../components/UI/BlueButton.jsx";
-import BottomHelp from "../components/UI/BottomHelp.jsx";
-import submitToApi from "../utils/submitToApi.js";
 import { useRouter } from "next/navigation";
-import Link from "next/link.js";
-import Validation from "../utils/Validation.js";
+import Link from "next/link";
+import FormInfo from "../components/form/FormInfo";
+import BlueButton from "../components/UI/BlueButton";
+import BottomHelp from "../components/UI/BottomHelp";
+import submitToApi from "../utils/submitToApi";
+import Validation from "../utils/Validation";
 
 function ResetPassword() {
   const url = "http://localhost:3002/forgot-password";
   const [formData, setFormData] = useState({ username: "", email: "" });
-  const [validationErrors, setValidationErrors] = useState({ username: "", email: "" });
+  const [validationErrors, setValidationErrors] = useState({
+    username: "",
+    email: "",
+  });
   const router = useRouter();
 
   function handleInputChange(event) {
@@ -24,15 +28,15 @@ function ResetPassword() {
     event.preventDefault();
     const errors = Validation(formData);
     setValidationErrors(errors);
-    if(errors.username === "" && errors.email === ""){
-    const responseData = await submitToApi(url, "POST", formData);
-    await console.log(responseData);
-    await setFormData({ username: "", email: "" });
-    if (responseData.message) {
-      router.push("/newpassword");
+    if (errors.username === "" && errors.email === "") {
+      const responseData = await submitToApi(url, "POST", formData);
+      await console.log(responseData);
+      await setFormData({ username: "", email: "" });
+      if (responseData.message) {
+        router.push("/newpassword");
+      }
     }
-  }
-}
+  };
 
   return (
     <div className="pageColumn__right">
@@ -44,7 +48,11 @@ function ResetPassword() {
         <form className="form" onSubmit={handleSubmit}>
           <div>
             <input
-              className={!validationErrors.username ? "form-input" : "form-input input-error"}
+              className={
+                !validationErrors.username
+                  ? "form-input"
+                  : "form-input input-error"
+              }
               id="username"
               name="username"
               type="text"
@@ -52,19 +60,27 @@ function ResetPassword() {
               onChange={handleInputChange}
               value={formData.username}
             />
-            {validationErrors.username ? (<p className="error-message">{validationErrors.username}</p>) : null}
+            {validationErrors.username ? (
+              <p className="error-message">{validationErrors.username}</p>
+            ) : null}
           </div>
 
           <div>
             <input
-              className={!validationErrors.email ? "form-input" : "form-input input-error"}
+              className={
+                !validationErrors.email
+                  ? "form-input"
+                  : "form-input input-error"
+              }
               name="email"
               type="email"
               placeholder="Email"
               onChange={handleInputChange}
               value={formData.email}
             />
-            {validationErrors.email ? (<p className="error-message">{validationErrors.email}</p>) : null}
+            {validationErrors.email ? (
+              <p className="error-message">{validationErrors.email}</p>
+            ) : null}
           </div>
           <BlueButton>Reset Password</BlueButton>
           <Link href="./username" className="bottom-link">

@@ -1,13 +1,18 @@
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Profile.css";
 import GrayButton from "./components/GrayButton";
 import SocialLink from "./components/SocialLink";
 import GrayOutMenuWrapper from "./components/GrayOutMenu"; // Import the correct component
-import social from "../social.js";
 
-export default function ProfileSocial({ isOpen, onClose, onSelectSocial, addSocialLink, deleteSocialLink, socialLinks, counter }) {
-
+export default function ProfileSocial({
+  isOpen,
+  onClose,
+  onSelectSocial,
+  addSocialLink,
+  deleteSocialLink,
+  socialLinks,
+  counter,
+}) {
   return (
     <div>
       <div className="settings--flex">
@@ -20,15 +25,19 @@ export default function ProfileSocial({ isOpen, onClose, onSelectSocial, addSoci
         <div className="settings--flexoption">
           <nav className="profile--social-nav">
             <ul>
-              {socialLinks.map((link, index) => (
+              {socialLinks.map((link) => (
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <a href={link.url} style={{ textDecoration: "none" }}>
-                    <SocialLink key={link.id} logo={link.logo} name={link.name} />
+                    <SocialLink
+                      key={link.id}
+                      logo={link.logo}
+                      name={link.name}
+                    />
                   </a>
                 </div>
               ))}
               <GrayButton
-                children={"Add social link"}
+                children="Add social link"
                 wasClicked={onClose}
                 isDisabled={counter === 5}
               />
@@ -49,7 +58,7 @@ export default function ProfileSocial({ isOpen, onClose, onSelectSocial, addSoci
                     logo={link.logo}
                     name={link.name}
                     wasClicked={deleteSocialLink}
-                    isDeletor={true}
+                    isDeletor
                   />
                 </div>
               ))}

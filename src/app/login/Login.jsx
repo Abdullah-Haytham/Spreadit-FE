@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import FormInfo from "../components/form/FormInfo.jsx";
-import BlueButton from "../components/UI/BlueButton.jsx";
-import Validation from "../utils/Validation.js";
-import "./Login.css";
+import React, { useState } from "react";
 import { signIn } from "next-auth/react";
-import Link from "next/link.js";
-
+import Link from "next/link";
+import FormInfo from "../components/form/FormInfo";
+import BlueButton from "../components/UI/BlueButton";
+import Validation from "../utils/Validation";
+import "./Login.css";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -23,18 +22,6 @@ function Login() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   }
 
-  async function handleSubmit(event) {
-    await event.preventDefault();
-    const valErrors = Validation(formData)
-    console.log(valErrors);
-    setErrors(valErrors);
-    if(valErrors.username === "" && valErrors.password === "")
-    {
-      await loginSubmit(JSON.stringify(formData));
-    }
-  }
-
-
   const url = "http://localhost:3001/login";
   const loginSubmit = async (values) => {
     console.log(values);
@@ -50,9 +37,19 @@ function Login() {
       .then((data) => console.log(data));
   };
 
+  async function handleSubmit(event) {
+    await event.preventDefault();
+    const valErrors = Validation(formData);
+    console.log(valErrors);
+    setErrors(valErrors);
+    if (valErrors.username === "" && valErrors.password === "") {
+      await loginSubmit(JSON.stringify(formData));
+    }
+  }
+
   function HandleRememberMe() {
     setRememberMe(!rememberMe);
-  };
+  }
 
   const handleGoogleSignIn = async () => {
     await signIn("google");
@@ -65,7 +62,13 @@ function Login() {
           title="Log in"
           description="Tell us the username and email address. By continuing, you agree to our User Agreement and Privacy Policy."
         />
-        <button className="continue_with" onClick={handleGoogleSignIn}>Sign in with Google</button>
+        <button
+          type="button"
+          className="continue_with"
+          onClick={handleGoogleSignIn}
+        >
+          Sign in with Google
+        </button>
         <p className="or_spliter">______________ OR ______________</p>
         <form onSubmit={handleSubmit}>
           <div>
@@ -114,7 +117,10 @@ function Login() {
         </form>
         <div className="bottom-text">
           New to Spreadit?
-          <Link href="./signup" className="bottom-link"> SIGN UP </Link>
+          <Link href="./signup" className="bottom-link">
+            {" "}
+            SIGN UP{" "}
+          </Link>
         </div>
       </div>
     </div>

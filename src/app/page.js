@@ -1,8 +1,4 @@
-"use client"
-
-import Image from "next/image";
-import Layout from "./settings/SettingsLayout";
-import Toogle from "./components/UI/Switch";
+"use client";
 
 export default function Home() {
   return (

@@ -1,34 +1,33 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import handler from "@/app/utils/apiHandler.js";
-import ProfileName from "./Profile_name.jsx";
-import ProfileAbout from "./Profile_about.jsx";
-import ProfileSocial from "./Profile_social.jsx";
-import ProfileAdvanced from "./Profile_advanced.jsx";
-import ProfileImages from "./Profile_images.jsx";
-import SettingItem from "../../components/UI/SettingItem.jsx";
-import BlueButton from "../../components/UI/BlueButton.jsx";
-import SettingsLayout from "../SettingsLayout.jsx";
-import optionData from "../options.js";
-import GrayOutMenuWrapper from "./components/GrayOutMenu.jsx"; // Import the wrapper component
+import handler from "../../utils/apiHandler";
+import ProfileName from "./Profile_name";
+import ProfileAbout from "./Profile_about";
+import ProfileSocial from "./Profile_social";
+import ProfileAdvanced from "./Profile_advanced";
+import ProfileImages from "./Profile_images";
+import SettingItem from "../../components/UI/SettingItem";
+import SettingsLayout from "../SettingsLayout";
+import optionData from "../options";
 
 const API_URL = "/settings/profile/";
 const DEBOUNCE_DELAY = 1500;
 const MAX_SOCIAL_LINKS = 5;
 
 function Profile() {
-  const [nsfwProfile, setNsfwProfile] = useState(false); // Assuming default value is false
-  const [allowFollow, setAllowFollow] = useState(false); // Assuming default value is false
-  const [contentVisibility, setContentVisibility] = useState(false); // Assuming default value is false
-  const [activeVisibility, setActiveVisibility] = useState(false); // Assuming default value is false
-  const [displayName, setDisplayName] = useState(""); // Assuming default value is false
-  const [about, setAbout] = useState(""); // Assuming default value is false
+  const [nsfwProfile, setNsfwProfile] = useState(false);
+  const [allowFollow, setAllowFollow] = useState(false);
+  const [contentVisibility, setContentVisibility] = useState(false);
+  const [activeVisibility, setActiveVisibility] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [about, setAbout] = useState("");
   const [socialLinks, setSocialLinks] = useState([]);
   const [counter, setCounter] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bannerUrl, setBannerUrl] = useState("");
   const [clearHistory, setClearHistory] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading indicator
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -46,16 +45,6 @@ function Profile() {
         setBannerUrl(prefsData.banner);
         setSocialLinks(prefsData.socialLinks); // Assuming sociallinks is the array containing social links
         setClearHistory(prefsData.clearHistory);
-        /*
-            assuming sociallinks structure is like this
-            "sociallinks": [
-                {
-                  "id": 1,
-                  "name": "Facebook",
-                  "url": "https://www.facebook.com",
-                  "logo": "https://example.com/facebook_logo.png"
-                },
-          */
       } catch (error) {
         console.error("Error fetching data:", error);
         // Handle error (e.g., show error message, retry mechanism)
@@ -67,17 +56,17 @@ function Profile() {
   }, []);
 
   async function patchData() {
-    let newPrefsData = {
+    const newPrefsData = {
       nsfw: nsfwProfile,
-      allowFollow: allowFollow,
-      contentVisibility: contentVisibility,
+      allowFollow,
+      contentVisibility,
       activeInCommunityVisibility: activeVisibility,
-      displayName: displayName,
-      about: about,
+      displayName,
+      about,
       profilePicture: avatarUrl,
       banner: bannerUrl,
-      socialLinks: socialLinks,
-      clearHistory: clearHistory,
+      socialLinks,
+      clearHistory,
     };
 
     try {
@@ -114,6 +103,14 @@ function Profile() {
   // State to track if gray overlay is on
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleAPIput = (id, status) => {
+    if (id === 13) setNsfwProfile(status);
+    else if (id === 14) setAllowFollow(status);
+    else if (id === 15) setContentVisibility(status);
+    else if (id === 16) setActiveVisibility(status);
+    else if (id === 17) setClearHistory(true);
+  };
+
   const handleOverlay = () => {
     setIsOpen(!isOpen); // Toggle the isOpen state
   };
@@ -137,14 +134,6 @@ function Profile() {
     }
   }, [clearHistory]);
 
-  const handleAPIput = (id, status) => {
-    if (id === 13) setNsfwProfile(status);
-    else if (id === 14) setAllowFollow(status);
-    else if (id === 15) setContentVisibility(status);
-    else if (id === 16) setActiveVisibility(status);
-    else if (id === 17) setClearHistory(true);
-  };
-
   const handleLinkSelection = (id) => {
     console.log(`Link with ID ${id} clicked.`);
   };
@@ -158,9 +147,7 @@ function Profile() {
   };
 
   const deleteSocialLink = (id) => {
-    // Filter out the social link with the given id
     const updatedSocialLinks = socialLinks.filter((link) => link.id !== id);
-    // Update the state with the new array
     setSocialLinks(updatedSocialLinks);
     setCounter(counter - 1);
   };
@@ -183,65 +170,63 @@ function Profile() {
   };
 
   return (
-    <>
-      <div className="settings--page">
-        <SettingsLayout index={1}/>
-        <div className="settings--container">
-          <div className="settings--content">
-            <h2 className="settings--h2">Customize profile</h2>
-            <h3 className="uppercase-h3-description">Profile Information</h3>
-            <ProfileName
-              displayName={displayName}
-              setDisplayName={setDisplayName}
-              handleSubmit={patchData}
-            />
-            <ProfileAbout
-              about={about}
-              setAbout={setAbout}
-              handleSubmit={patchData}
-            />
-            <ProfileSocial
-              isOpen={isOpen}
-              onClose={handleOverlay}
-              onSelectSocial={handleLinkSelection}
-              addSocialLink={addSocialLink}
-              deleteSocialLink={deleteSocialLink}
-              socialLinks={socialLinks}
-              counter={counter}
-            />
-            <h3 className="uppercase-h3-description">Images</h3>
-            <ProfileImages
-              setAvatarUrl={setAvatarUrl}
-              setBannerUrl={setBannerUrl}
-            />
-            <h3 className="uppercase-h3-description">Profile Category</h3>
-            {optionData.map(
-              (option) =>
-                option.id === 13 && (
-                  <SettingItem
-                    key={option.id}
-                    option={option}
-                    isToggled={nsfwProfile}
-                    onItemClick={handleItemClick}
-                  />
-                )
-            )}
-            <h3 className="uppercase-h3-description">Advanced</h3>
+    <div className="settings--page">
+      <SettingsLayout index={1} />
+      <div className="settings--container">
+        <div className="settings--content">
+          <h2 className="settings--h2">Customize profile</h2>
+          <h3 className="uppercase-h3-description">Profile Information</h3>
+          <ProfileName
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+            handleSubmit={patchData}
+          />
+          <ProfileAbout
+            about={about}
+            setAbout={setAbout}
+            handleSubmit={patchData}
+          />
+          <ProfileSocial
+            isOpen={isOpen}
+            onClose={handleOverlay}
+            onSelectSocial={handleLinkSelection}
+            addSocialLink={addSocialLink}
+            deleteSocialLink={deleteSocialLink}
+            socialLinks={socialLinks}
+            counter={counter}
+          />
+          <h3 className="uppercase-h3-description">Images</h3>
+          <ProfileImages
+            setAvatarUrl={setAvatarUrl}
+            setBannerUrl={setBannerUrl}
+          />
+          <h3 className="uppercase-h3-description">Profile Category</h3>
+          {optionData.map(
+            (option) =>
+              option.id === 13 && (
+                <SettingItem
+                  key={option.id}
+                  option={option}
+                  isToggled={nsfwProfile}
+                  onItemClick={handleItemClick}
+                />
+              )
+          )}
+          <h3 className="uppercase-h3-description">Advanced</h3>
 
-            <ProfileAdvanced
-              clickEvent={handleItemClick}
-              array={initialStateArray}
-            />
-            <h3 className="uppercase-h3-description">Profile Moderation</h3>
-            <div />
-            <div>
-              For moderation tools please visit our{" "}
-              <a href="/moderation">Profile Moderation page</a>
-            </div>
+          <ProfileAdvanced
+            clickEvent={handleItemClick}
+            array={initialStateArray}
+          />
+          <h3 className="uppercase-h3-description">Profile Moderation</h3>
+          <div />
+          <div>
+            For moderation tools please visit our{" "}
+            <a href="/moderation">Profile Moderation page</a>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
