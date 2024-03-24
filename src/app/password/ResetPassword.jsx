@@ -9,7 +9,7 @@ import Link from "next/link.js";
 import Validation from "../utils/Validation.js";
 
 function ResetPassword() {
-  const url = "http://localhost:3002/forgot-password";
+  const url = "http://localhost:80/forgot-password";
   const [formData, setFormData] = useState({ username: "", email: "" });
   const [validationErrors, setValidationErrors] = useState({ username: "", email: "" });
   const router = useRouter();

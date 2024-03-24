@@ -5,7 +5,7 @@ import BottomHelp from "../components/UI/BottomHelp.jsx";
 import submitToApi from "../utils/submitToApi.js";
 
 function ChangePassword() {
-  const url = "http://localhost:3002/reset-password";
+  const url = "http://localhost:80/reset-password-by-token";
   const [formData, setFormData] = useState({ password: "", password2: "" });
   const [isEqual, setIsEqual] = useState(true);
   const [isLong, setIsLong] = useState(true);
@@ -29,7 +29,7 @@ function ChangePassword() {
       return;
     }
     const password = formData.password;
-    submitToApi(url, "POST", {password});
+    submitToApi(url, "POST", {"password": password, "resetToken": "3569de4e208fc7afead2d0ff699e725e5353efb7d28ea1c4b7c35edc53d6be28"});
     setFormData({ password: "", password2: "" });
   }
 

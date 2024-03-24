@@ -26,11 +26,7 @@ function Signup() {
       }
     }
 
-    function submitToAPI(formData) {
-        console.log("data submitted")
-    }
-
-    const url = "http://localhost:3001/signup"
+    const url = "http://localhost:80/signup"
     const loginSubmit = async(values)=>{
       console.log(values)
         const options = {

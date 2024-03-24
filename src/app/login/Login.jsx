@@ -11,9 +11,9 @@ function Login() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    rememberme: false,
-    usernameExists: false,
-    incorrectPassword: false,
+    // rememberme: false,
+    // usernameExists: false,
+    // incorrectPassword: false,
   });
   const [errors, setErrors] = useState({ username: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
@@ -35,7 +35,7 @@ function Login() {
   }
 
 
-  const url = "http://localhost:3001/login";
+  const url = "http://localhost:80/login";
   const loginSubmit = async (values) => {
     console.log(values);
     const options = {

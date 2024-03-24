@@ -5,7 +5,7 @@ import BottomHelp from "../components/UI/BottomHelp.jsx";
 import submitToApi from "../utils/submitToApi.js";
 
 function RecoverUsername() {
-  const url = "http://localhost:3002/forgot-username";
+  const url = "http://localhost:80/forgot-username";
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 

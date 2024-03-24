@@ -8,15 +8,15 @@ export const authOptions = {
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: "",
+      clientSecret: "",
     }),
   ],
   callbacks: {
     async signIn({ user, account }) {
       if (account.provider === "google") {
-        const url = "http://localhost:3002/login";
-        const response = await submitToApi(url, "POST", account.access_token);
+        const url = "http://localhost:80/google/oauth";
+        const response = await submitToApi(url, "POST", {"googleToken" :account.access_token});
         console.log(response)
         return true;
       }
